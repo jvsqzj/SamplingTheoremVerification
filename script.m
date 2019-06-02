@@ -1,8 +1,10 @@
 
 %%%%%%%% Se lee el archivo de audio y se convierte en arreglos %%%%%%%
-Fp = 44100;
+Fp = 20000;
 [y,Fs] = audioread('organ.wav');
-
+Kl=exp(5.9*10^-5*(Fp-800));
+Kr=0.5*exp(5.9*10^-5*(Fp-800));
+largo=length(y);
 for i = 1:length(y)
     channel0(i,1) = i/Fs;
     channel0(i,2) = y(i,1);
@@ -76,6 +78,9 @@ title(['Espectro de la señal estereo muestreada @' num2str(Fp) 'Hz'])
 t = recovered1.Time;   
 
 output = [recovered0.Data, recovered1.Data];
+
+M1 = max(recovered0.Data);
+M2 = min(recovered1.Data);
 
 os = fft(output);
 
