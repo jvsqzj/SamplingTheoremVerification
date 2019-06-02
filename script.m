@@ -1,10 +1,19 @@
 
 %%%%%%%% Se lee el archivo de audio y se convierte en arreglos %%%%%%%
+<<<<<<< HEAD
 Fp = 20000;
 [y,Fs] = audioread('organ.wav');
 Kl=exp(5.9*10^-5*(Fp-800));
 Kr=0.5*exp(5.9*10^-5*(Fp-800));
 largo=length(y);
+=======
+Fp = 800;   %%%% FRECUENCIA DE MUESTREO 
+[y,Fs] = audioread('organ.wav');
+
+Kl=exp(5.9*10^-5*(Fp-800));
+Kr=0.5*exp(5.9*10^-5*(Fp-800));
+
+>>>>>>> ff7b120197f789b9b859fffabaf11b2836bbfb2a
 for i = 1:length(y)
     channel0(i,1) = i/Fs;   %x axis
     channel0(i,2) = y(i,1); %right channel
