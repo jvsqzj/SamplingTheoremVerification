@@ -1,40 +1,41 @@
 
 %%%%%%%% Se lee el archivo de audio y se convierte en arreglos %%%%%%%
-<<<<<<< HEAD
-Fp = 20000;
-[y,Fs] = audioread('organ.wav');
-Kl=exp(5.9*10^-5*(Fp-800));
-Kr=0.5*exp(5.9*10^-5*(Fp-800));
-largo=length(y);
-=======
 Fp = 800;   %%%% FRECUENCIA DE MUESTREO 
 [y,Fs] = audioread('organ.wav');
 
-Kl=exp(5.9*10^-5*(Fp-800));
-Kr=0.5*exp(5.9*10^-5*(Fp-800));
+%-----------------------------------------------------
+%   Ganancias para el volumen de acuerdo al canal
+Kl=1; % modificar para corregir el volumen de cada canal
+Kr=1; %esta es para corregir el volumen del otro canal
+%-----------------------------------------------------
 
->>>>>>> ff7b120197f789b9b859fffabaf11b2836bbfb2a
+% lectura de las muestras del archivo para ser asignadas a un array para trabajar
 for i = 1:length(y)
-    channel0(i,1) = i/Fs;   %x axis
-    channel0(i,2) = y(i,1); %right channel
-    channel1(i,1) = i/Fs;   %x axis
-    channel1(i,2) = y(i,2); %left channel
+    channel0(i,1) = i/Fs;   %valores en el eje x para graficar
+    channel0(i,2) = y(i,1); %right channel amplitude
+    channel1(i,1) = i/Fs;   %valores en el eje x para graficar
+    channel1(i,2) = y(i,2); %left channel amplitude
 end 
 
-t = channel0(:,[1]);
+t = channel0(:,[1]); % vector de tiempos para graficar, es una variable auxiliar
 
-%%%%%%%% Se obtiene el espectro de la señal de entrada %%%%%%%%%
-ys = fft(y);
 
-n = length(y);          % number of samples
+%--------------------------------------------------------------------------
+%   Se grafican las señales de entrada y su espectro 
+%--------------------------------------------------------------------------
+
+%-------------------------------
+%  Gráfica de Señal de Entrada
+%-------------------------------
+
+ys = fft(y); % Se obtiene el espectro de la señal de entrada %
+n = length(y);         % number of samples
 f = (0:n-1)*(Fs/n);     % frequency range
 power = abs(ys).^2/n;    % power of the DFT
 power = [power(:,[1]),-power(:,[2])];
 
-offset = 0; 
+offset = 0; % esto es solo para visualizar en los gráficos, para tener el valor original mantener en 0
 y = [offset + y(:,[1]) , y(:,[2]) - offset];
-
-%%%%%%%% Se grafican las señales de entrada y su espectro %%%%%%%%%
 
 subplot(2,3,1)
 plot(f,power)
@@ -53,17 +54,17 @@ title('Señal estereo')
 %%%%%%%% Se ejecuta el procesamiento de la señal en Simulink %%%%%%%%
 
 sim('exampleSamplingTheorem.slx');
-
-
 t = product1.Time; 
-
 p = [product0.Data, product1.Data];
 
+%-----------------------------------
+%  Gráfica de  Señal de muestreada
+%-----------------------------------
 
 ps = fft(p);
-
+kte= length(ps)/length(channel0); %factor de escala para graficar bien 
 n = length(ps);          % number of samples
-f = (0:n-1)*(Fs/n);     % frequency range
+f = (0:n-1)*(kte*Fs/n);     % frequency range
 power = abs(ps).^2/n;    % power of the DFT
 power = [power(:,[1]),-power(:,[2])];
 
@@ -85,14 +86,13 @@ title(['Espectro de la señal estereo muestreada @' num2str(Fp) 'Hz'])
 %%%%%%%% Se obtienen gráficas de la salida del modelo Simulink %%%%%%%%
 
 t = recovered1.Time;   
-
 output = [recovered0.Data, recovered1.Data];
 
-M1 = max(recovered0.Data);
-M2 = min(recovered1.Data);
+%-------------------------------
+%  Gráfica de Señal recuperada
+%-------------------------------
 
 os = fft(output);
-
 n = length(os);          % number of samples
 f = (0:n-1)*(Fs/n);     % frequency range
 power = abs(os).^2/n;    % power of the DFT
@@ -114,7 +114,7 @@ title("Espectro de la señal recuperada")
 
 
 filename = ['output@'  num2str(Fp)  '.wav'];
-audiowrite(filename,output,Fs);
+audiowrite(filename,output,Fs); %se guarda el archivo generado
 
 
 
