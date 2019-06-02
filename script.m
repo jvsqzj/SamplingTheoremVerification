@@ -6,10 +6,10 @@ Kl=exp(5.9*10^-5*(Fp-800));
 Kr=0.5*exp(5.9*10^-5*(Fp-800));
 largo=length(y);
 for i = 1:length(y)
-    channel0(i,1) = i/Fs;
-    channel0(i,2) = y(i,1);
-    channel1(i,1) = i/Fs;
-    channel1(i,2) = y(i,2);
+    channel0(i,1) = i/Fs;   %x axis
+    channel0(i,2) = y(i,1); %right channel
+    channel1(i,1) = i/Fs;   %x axis
+    channel1(i,2) = y(i,2); %left channel
 end 
 
 t = channel0(:,[1]);
