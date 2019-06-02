@@ -1,13 +1,16 @@
 
 %%%%%%%% Se lee el archivo de audio y se convierte en arreglos %%%%%%%
-Fp = 800;   %%%% FRECUENCIA DE MUESTREO 
+Fp = 44000;   %%%% FRECUENCIA DE MUESTREO 
 [y,Fs] = audioread('organ.wav');
 
 %-----------------------------------------------------
 %   Ganancias para el volumen de acuerdo al canal
-Kl=1; % modificar para corregir el volumen de cada canal
-Kr=1; %esta es para corregir el volumen del otro canal
+
+Kl=-5.31*0.0001*Fp+3.6; % modificar para corregir el volumen de cada canal
+Kr=-5.31*0.0001*Fp+3.6; %esta es para corregir el volumen del otro canal
 %-----------------------------------------------------
+
+
 
 % lectura de las muestras del archivo para ser asignadas a un array para trabajar
 for i = 1:length(y)
@@ -16,6 +19,9 @@ for i = 1:length(y)
     channel1(i,1) = i/Fs;   %valores en el eje x para graficar
     channel1(i,2) = y(i,2); %left channel amplitude
 end 
+
+
+
 
 t = channel0(:,[1]); % vector de tiempos para graficar, es una variable auxiliar
 
@@ -97,6 +103,14 @@ n = length(os);          % number of samples
 f = (0:n-1)*(Fs/n);     % frequency range
 power = abs(os).^2/n;    % power of the DFT
 power = [power(:,[1]),-power(:,[2])];
+
+%-----------------------------------------------------
+%   Ganancias para el volumen de acuerdo al canal
+
+%Kl=max_ch0_freq_in2/max_ch0_freq_out2; % modificar para corregir el volumen de cada canal
+%Kr=max_ch1_freq_in2/max_ch1_freq_out2; %esta es para corregir el volumen del otro canal
+%-----------------------------------------------------
+
 
 subplot(2,3,6)
 plot(t,output)
