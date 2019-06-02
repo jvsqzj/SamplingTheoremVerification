@@ -1,6 +1,6 @@
 
 %%%%%%%% Se lee el archivo de audio y se convierte en arreglos %%%%%%%
-Fp = 800;
+Fp = 44100;
 [y,Fs] = audioread('organ.wav');
 
 for i = 1:length(y)
