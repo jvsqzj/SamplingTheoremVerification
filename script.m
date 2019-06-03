@@ -6,8 +6,8 @@ Fp = 44000;   %%%% FRECUENCIA DE MUESTREO
 %-----------------------------------------------------
 %   Ganancias para el volumen de acuerdo al canal
 
-Kl=-5.31*0.0001*Fp+3.6; % modificar para corregir el volumen de cada canal
-Kr=-5.31*0.0001*Fp+3.6; %esta es para corregir el volumen del otro canal
+Kl=-5.31*0.0001*Fp+3.6; % 
+Kr=-5.31*0.0001*Fp+3.6; %
 %-----------------------------------------------------
 
 
