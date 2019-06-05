@@ -1,13 +1,15 @@
 
 %%%%%%%% Se lee el archivo de audio y se convierte en arreglos %%%%%%%
-Fp = 44000;   %%%% FRECUENCIA DE MUESTREO 
+Fp = 800;   %%%% FRECUENCIA DE MUESTREO 
 [y,Fs] = audioread('organ.wav');
 
 %-----------------------------------------------------
 %   Ganancias para el volumen de acuerdo al canal
 
-Kl=-5.31*0.0001*Fp+3.6; % 
-Kr=-5.31*0.0001*Fp+3.6; %
+%Kl=1; % sin ganancia en el volumen
+%Kr=1; 
+Kl=25; % % Ganacias para el volumen, activar si desea  corregir el volumen
+Kr=25; % % Ganacias para el volumen, activar si desea  corregir el volumen
 %-----------------------------------------------------
 
 
